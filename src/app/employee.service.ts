@@ -17,19 +17,20 @@ export class EmployeeService {
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private router: Router) { }
 
   login(loginPayload): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.baseUrl}` + `/token/generate-token`, loginPayload);
+    return this.http.post<ApiResponse>(`${this.baseUrl}` + `/login`, loginPayload);
   }
 
   getJwtToken() {
-    return this.http.get<string>(`${this.baseUrl}` + `/getToken`);
+    return this.http.get<string>(`${this.baseUrl}` + `/token`);
   }
 
   source(): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.baseUrl}` + `/source`);
   }
 
-  exit(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.baseUrl}` + `/logout`);
+  exit() {
+    console.log('>> exit << ' + `${this.baseUrl}` + `/logout`);
+    return this.http.get(`${this.baseUrl}` + `/logout`);
   }
 
   getUsers(): Observable<ApiResponse> {

@@ -8,14 +8,13 @@ import { ViewUserComponent } from './user/view-user/view-user.component';
 import { User } from './model/user.model';
 
 const routes: Routes = [
-  { path: '', component: ListUserComponent},
+  { path: '', redirectTo: 'login', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
   { path: 'adduser', component: AddUserComponent },
   { path: 'edituser', component: EditUserComponent, data: { user: User } },
   { path: 'viewuser', component: ViewUserComponent },
   { path: 'listuser', component: ListUserComponent },
-  { path: 'exit', component: ListUserComponent }, 
-  { path: 'source', redirectTo: `window.location.href = https://github.com/JL7Reis/softplayer/archive/master.zip` }
+  { path: 'exit', redirectTo: 'login', pathMatch: 'full'}
 ];
 
 @NgModule({

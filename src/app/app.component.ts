@@ -13,7 +13,7 @@ export class AppComponent {
   constructor(private router: Router, private employeeService: EmployeeService) { }
 
   onExit() {
-    this.router.navigate(['login']);
     this.employeeService.exit();
+    this.router.navigate(['login']);
   }
 }
