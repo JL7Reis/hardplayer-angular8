@@ -1,43 +1,45 @@
 <div class="col-md-6 user-container">
-  <h2 class="text-center"  *ngIf="user">Edit User</h2>
+  <h2 class="text-center center">Edit User</h2>
   <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
 
     <div class="form-group">
       <label for="username">User Name:</label>
-      <input type="text" formControlName="username" placeholder="username" name="username" class="form-control"
+      <input type="text" formControlName="username" name="username" class="form-control"
         id="username">
     </div>
 
     <div class="form-group">
       <label for="cpf">CPF:</label>
-      <input type="text" formControlName="cpf" placeholder="CPF" name="cpf" class="form-control" id="cpf">
+      <input type="text" formControlName="cpf" name="cpf" class="form-control" id="cpf">
     </div>
 
     <div class="form-group">
       <label for="email">Email:</label>
-      <input type="text" formControlName="email" placeholder="Email" name="email" class="form-control" id="email">
+      <input type="text" formControlName="email" name="email" class="form-control" id="email">
     </div>
 
     <div class="form-group">
       <label for="bithdate">Bithdate:</label>
-      <input type="date" formControlName="bithdate" placeholder="Bithdate" name="bithdate" class="form-control"
+      <input type="date" formControlName="bithdate" name="bithdate" class="form-control"
         id="bithdate">
     </div>
 
     <div class="form-group">
       <label for="genre">Genre:</label>
-      <input type="text" formControlName="genre" placeholder="Genre" name="genre" class="form-control" id="genre">
+      <select formControlName="genre" class="form-control" name="genre" id="genre">
+        <option *ngFor="let genre of genres" [value]="genre.value">{{genre.viewValue}}
+      </select>
     </div>
 
     <div class="form-group">
       <label for="birthplace">Birthplace:</label>
-      <input type="text" formControlName="birthplace" placeholder="Birthplace" name="birthplace" class="form-control"
+      <input type="text" formControlName="birthplace" name="birthplace" class="form-control"
         id="birthplace">
     </div>
 
     <div class="form-group">
       <label for="nationality">Nationality:</label>
-      <input type="text" formControlName="nationality" placeholder="Nationality" name="nationality" class="form-control"
+      <input type="text" formControlName="nationality" name="nationality" class="form-control"
         id="nationality">
     </div>
 

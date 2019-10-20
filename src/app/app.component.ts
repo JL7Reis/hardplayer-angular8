@@ -12,8 +12,8 @@ export class AppComponent {
 
   constructor(private router: Router, private employeeService: EmployeeService) { }
 
-  onExit() {
-    this.employeeService.exit();
+  logout() {
     this.router.navigate(['login']);
+    this.employeeService.exit();
   }
 }

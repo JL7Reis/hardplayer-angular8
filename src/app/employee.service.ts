@@ -30,7 +30,7 @@ export class EmployeeService {
 
   exit() {
     console.log('>> exit << ' + `${this.baseUrl}` + `/logout`);
-    return this.http.get(`${this.baseUrl}` + `/logout`);
+    return this.http.get<ApiResponse>(`${this.baseUrl}` + `/logout`);
   }
 
   getUsers(): Observable<ApiResponse> {

@@ -2,6 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EmployeeService } from '../employee.service';
+import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-login',
@@ -10,9 +20,20 @@ import { EmployeeService } from '../employee.service';
 })
 export class LoginComponent implements OnInit {
 
+  matcher = new MyErrorStateMatcher();
+  hide = true;
   loginForm: FormGroup;
   invalidLogin = false;
+
   constructor(private formBuilder: FormBuilder, private router: Router,  private employeeService: EmployeeService ) { }
+
+  ngOnInit() {
+    localStorage.clear();
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
 
   onSubmit() {
     if (this.loginForm.invalid) {
@@ -23,22 +44,13 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.controls.password.value
     };
     this.employeeService.login(loginPayload).subscribe(data => {
-      console.log(data);
       if (data.status === 200) {
         localStorage.setItem('token', data.result);
-        this.router.navigate(['listuser']);
+        this.router.navigate(['home']);
       } else {
         this.invalidLogin = true;
-        alert(data.message);
+        console.log(data);
       }
-    });
-  }
-
-  ngOnInit() {
-    localStorage.removeItem('token');
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.compose([Validators.required])],
-      password: ['', Validators.required]
     });
   }
 }

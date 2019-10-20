@@ -28,6 +28,6 @@ export class ViewUserComponent implements OnInit {
   }
 
   list() {
-    this.router.navigate(['listuser']);
+    this.router.navigate(['home/listuser']);
   }
 }

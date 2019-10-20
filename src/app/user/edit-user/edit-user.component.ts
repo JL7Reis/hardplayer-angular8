@@ -1,16 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { User } from '../../model/user.model';
 import { EmployeeService } from '../../employee.service';
 
+export interface Genre {
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.css']
 })
-export class EditUserComponent implements OnInit {
+export class EditUserComponent implements OnInit, OnDestroy {
 
   cpf: string;
   user: User;
@@ -18,12 +22,19 @@ export class EditUserComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private employeeService: EmployeeService ) { }
 
+  genres: Genre[] = [
+    {value: null, viewValue: 'Select...'},
+    {value: 'MASCULINO', viewValue: 'Masculino'},
+    {value: 'FEMININO', viewValue: 'Feminino'},
+    {value: 'OUTROS', viewValue: 'Outros'}
+  ];
+
   ngOnInit() {
     this.employeeService.sessionExpired();
-    const userId = window.localStorage.getItem('editUserId');
-    if (!userId) {
+    const userCpf = localStorage.getItem('editUserCpf');
+    if (!userCpf) {
       alert('Invalid action.');
-      this.router.navigate(['listuser']);
+      this.router.navigate(['home/listuser']);
       return;
     }
     this.editForm = this.formBuilder.group({
@@ -40,11 +51,15 @@ export class EditUserComponent implements OnInit {
 
     });
     this.cpf = this.route.snapshot.params[`cpf`];
-    console.log(this.editForm.value);
     this.employeeService.getUserById(this.cpf)
       .subscribe( data => {
         this.editForm.setValue(data.result);
+        console.log(data.result);
       });
+  }
+
+  ngOnDestroy(): void {
+    localStorage.removeItem('editUserCpf');
   }
 
   updateEmployee() {
@@ -73,6 +88,6 @@ export class EditUserComponent implements OnInit {
   }
 
   gotoList() {
-    this.router.navigate(['listuser']);
+    this.router.navigate(['home/listuser']);
   }
 }

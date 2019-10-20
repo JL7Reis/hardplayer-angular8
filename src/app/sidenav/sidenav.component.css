@@ -1,0 +1,19 @@
+.hidden {
+  display: none;
+}
+
+.custom-container {
+  position: absolute;
+  top: 60px;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+}
+
+.custom-sidenav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  background: #212121;
+}

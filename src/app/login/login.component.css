@@ -1,9 +1,29 @@
-.error{
-  color: #FF0000;
+.mat-form {
+  margin: 20px;
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+.mat-full-width {
+  width: 100%;
+}
+
 .login-container {
   display: flex;
   flex-direction: column;
-  background-color: blanchedalmond;
-  margin: 2em auto auto;
+  background-color:#212121;
+  margin: 60px auto auto;
+  width: 100%;
+}
+
+.login-container > * {
+  width: 100%;
+}
+
+.error{
+  color: #FF0000;
 }

@@ -34,12 +34,12 @@ export class ListUserComponent implements OnInit {
   }
 
   editUser(user: User): void {
-    window.localStorage.removeItem('editUserId');
-    window.localStorage.setItem('editUserId', user._id.toString());
-    this.router.navigate(['edituser', user]);
+    localStorage.removeItem('editUserCpf');
+    localStorage.setItem('editUserCpf', user.cpf);
+    this.router.navigate(['home/edituser', user]);
   }
 
   viewUser(id: number) {
-    this.router.navigate(['viewuser', id]);
+    this.router.navigate(['home/viewuser', id]);
   }
 }

@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
-    <h2>Employee List</h2>
+    <h2>Users</h2>
   </div>
   <div class="panel-body">
     <table class="table table-striped">
@@ -11,8 +11,8 @@
           <th>CPF</th>
           <th>Email</th>
           <th>Bithdate</th>
-          <th>Genre</th>
-          <th>Birthplace</th>
+          <th *ngIf="hide">Genre</th>
+          <th *ngIf="hide">Birthplace</th>
           <th>Nationality</th>
           <th *ngIf="hide">Registration</th>
           <th *ngIf="hide">Update</th>
@@ -23,17 +23,18 @@
         <tr *ngFor="let user of users">
           <td *ngIf="hide">{{user._id}}</td>
           <td>{{user.username}}</td>
-          <td>{{user.cpf}}</td>
+          <td >{{user.cpf}}</td>
           <td>{{user.email}}</td>
-          <td>{{user.bithdate}}</td>
-          <td>{{user.genre}}</td>
-          <td>{{user.birthplace}}</td>
+          <td >{{user.bithdate}}</td>
+          <td *ngIf="hide">{{user.genre}}</td>
+          <td *ngIf="hide">{{user.birthplace}}</td>
           <td>{{user.nationality}}</td>
           <td *ngIf="hide">{{user.registration}}</td>
           <td *ngIf="hide">{{user.update}}</td>
-          <td><button class="btn btn-danger" (click)="deleteUser(user)"> Delete</button>
-              <button class="btn btn-info" (click)="editUser(user)" style="margin-left: 20px;"> Edit</button>
-              <button class="btn btn-info" (click)="viewUser(user)" style="margin-left: 20px;"> View</button>
+          <td class='nowrap'>
+              <button class="btn btn-info" (click)="viewUser(user)">View</button>
+              <button class="btn btn-info" (click)="editUser(user)">Edit</button>
+              <button class="btn btn-danger" (click)="deleteUser(user)">X</button>
           </td>
         </tr>
       </tbody>

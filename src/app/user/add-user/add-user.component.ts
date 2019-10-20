@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeService } from '../../employee.service';
 import { User } from '../../model/user.model';
 
+export interface Genre {
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
@@ -16,10 +20,17 @@ export class AddUserComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService) { }
 
+  genres: Genre[] = [
+    {value: null, viewValue: 'Select...'},
+    {value: 'MASCULINO', viewValue: 'Masculino'},
+    {value: 'FEMININO', viewValue: 'Feminino'},
+    {value: 'OUTROS', viewValue: 'Outros'}
+  ];
+
   ngOnInit() {
     this.employeeService.sessionExpired();
     this.addForm = this.formBuilder.group({
-      id: [],
+      // id: [],
       username: ['', Validators.required],
       cpf: ['', Validators.required],
       email: ['', Validators.required],
@@ -27,8 +38,8 @@ export class AddUserComponent implements OnInit {
       genre: ['', Validators.required],
       birthplace: ['', Validators.required],
       nationality: ['', Validators.required],
-      registration: [''],
-      update: ['']
+      // registration: [''],
+      // update: ['']
     });
   }
 

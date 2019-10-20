@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AppRoutingModule } from './app-routing.module';
+import * as animations from '@angular/platform-browser/animations';
+import * as material from '@angular/material';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EmployeeService } from './employee.service';
 import { TokenInterceptor } from './core/interceptor';
@@ -12,6 +14,10 @@ import { EditUserComponent } from './user/edit-user/edit-user.component';
 import { ListUserComponent } from './user/list-user/list-user.component';
 import { ViewUserComponent } from './user/view-user/view-user.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { SidenavComponent } from './sidenav/sidenav.component';
+
+export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
 @NgModule({
   declarations: [
@@ -20,7 +26,8 @@ import { JwtModule } from '@auth0/angular-jwt';
     AddUserComponent,
     EditUserComponent,
     ListUserComponent,
-    ViewUserComponent
+    ViewUserComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
@@ -35,8 +42,21 @@ import { JwtModule } from '@auth0/angular-jwt';
         return localStorage.getItem('token');
         }
      },
-   })
+   }),
+   NgxMaskModule.forRoot(options),
+   material.MatSidenavModule,
+   material.MatListModule,
+   material.MatSelectModule,
+   material.MatToolbarModule,
+   material.MatButtonModule,
+   material.MatIconModule,
+   material.MatFormFieldModule,
+   material.MatRippleModule,
+   material.MatSliderModule,
+   material.MatInputModule,
+   animations.BrowserAnimationsModule
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [EmployeeService, {provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi : true}],

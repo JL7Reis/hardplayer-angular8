@@ -1,0 +1,16 @@
+
+<mat-sidenav-container class="custom-container">
+    <mat-sidenav #sidenav mode="side" opened class="custom-sidenav">
+        <!-- <mat-toolbar color="primary">Menu</mat-toolbar> -->
+        <mat-nav-list>
+            <a nav-list-item routerLink='listuser' class='nav-link' routerLinkActive='active'>User List</a>
+            <a nav-list-item routerLink='adduser' class='nav-link' routerLinkActive='active'>Add User</a>
+            <a nav-list-item routerLink='exit' class='nav-link' routerLinkActive='active' onclick='logout()'>Logout</a>
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+    
+</mat-sidenav-container>

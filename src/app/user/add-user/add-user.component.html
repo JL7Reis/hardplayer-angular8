@@ -10,7 +10,8 @@
 
     <div class="form-group">
       <label for="cpf">CPF:</label>
-      <input type="text" formControlName="cpf" placeholder="CPF" name="cpf" class="form-control" id="cpf">
+      <input type="text" formControlName="cpf" placeholder="CPF" name="cpf" class="form-control" id="cpf"
+        mask='000.000.000-99' clean='true'>
     </div>
 
     <div class="form-group">
@@ -26,7 +27,9 @@
 
     <div class="form-group">
       <label for="genre">Genre:</label>
-      <input type="text" formControlName="genre" placeholder="Genre" name="genre" class="form-control" id="genre">
+      <select formControlName="genre" class="form-control" name="genre" id="genre">
+        <option *ngFor="let genre of genres" [value]="genre.value">{{genre.viewValue}}
+      </select>
     </div>
 
     <div class="form-group">
@@ -42,7 +45,7 @@
     </div>
 
     <div>
-      <button class="btn btn-success">Add</button> 
+      <button class="btn btn-success">Add User</button> 
       <label class="submit" [hidden]="!submitted">You submitted successfully!</label>
     </div>
   </form>

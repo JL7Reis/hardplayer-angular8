@@ -1,3 +1,4 @@
+import { SidenavComponent } from './sidenav/sidenav.component';
 import { LoginComponent } from './login/login.component';
 import { AddUserComponent } from './user/add-user/add-user.component';
 import { ListUserComponent } from './user/list-user/list-user.component';
@@ -10,11 +11,15 @@ import { User } from './model/user.model';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
-  { path: 'adduser', component: AddUserComponent },
-  { path: 'edituser', component: EditUserComponent, data: { user: User } },
-  { path: 'viewuser', component: ViewUserComponent },
-  { path: 'listuser', component: ListUserComponent },
-  { path: 'exit', redirectTo: 'login', pathMatch: 'full'}
+  { path: 'home/exit', redirectTo: 'login', pathMatch: 'full'},
+  { path: 'home', component: SidenavComponent,
+    children: [
+      { path: 'listuser', component: ListUserComponent },
+      { path: 'adduser', component: AddUserComponent },
+      { path: 'edituser', component: EditUserComponent, data: { user: User } },
+      { path: 'viewuser', component: ViewUserComponent }
+    ],
+  }
 ];
 
 @NgModule({
