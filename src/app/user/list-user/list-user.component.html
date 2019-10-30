@@ -1,43 +1,47 @@
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    <h2>Users</h2>
-  </div>
-  <div class="panel-body">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th *ngIf="hide">Id</th>
-          <th>Name</th>
-          <th>CPF</th>
-          <th>Email</th>
-          <th>Bithdate</th>
-          <th *ngIf="hide">Genre</th>
-          <th *ngIf="hide">Birthplace</th>
-          <th>Nationality</th>
-          <th *ngIf="hide">Registration</th>
-          <th *ngIf="hide">Update</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users">
-          <td *ngIf="hide">{{user._id}}</td>
-          <td>{{user.username}}</td>
-          <td >{{user.cpf}}</td>
-          <td>{{user.email}}</td>
-          <td >{{user.bithdate}}</td>
-          <td *ngIf="hide">{{user.genre}}</td>
-          <td *ngIf="hide">{{user.birthplace}}</td>
-          <td>{{user.nationality}}</td>
-          <td *ngIf="hide">{{user.registration}}</td>
-          <td *ngIf="hide">{{user.update}}</td>
-          <td class='nowrap'>
-              <button class="btn btn-info" (click)="viewUser(user)">View</button>
-              <button class="btn btn-info" (click)="editUser(user)">Edit</button>
-              <button class="btn btn-danger" (click)="deleteUser(user)">X</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
+      <td mat-cell *matCellDef="let user"> {{user.username}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cpf">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> CPF </th>
+      <td mat-cell *matCellDef="let user"> {{user.cpf | mask:"000.000.000-99"}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+      <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="birthdate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Birthdate </th>
+      <td mat-cell *matCellDef="let user"> {{user.birthdate | date:"dd/MM/yyyy" }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="country">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Country </th>
+      <td mat-cell *matCellDef="let user"> {{user.country}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+      <td mat-cell *matCellDef="let user">
+          <button mat-stroked-button color='accent' (click)="viewUser(user)">View</button>
+          <button mat-stroked-button color='accent' (click)="editUser(user)">Edit</button>
+          <button mat-stroked-button color='warn' (click)="deleteUser(user)">X</button>
+    </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let user; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
 </div>

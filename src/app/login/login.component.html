@@ -3,8 +3,8 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class='mat-form'>
       
       <div class="form-group">
-        <mat-form-field class='mat-full-width'>
-          <input matInput placeholder='Username' class="form-control" type="text" [errorStateMatcher]='matcher'
+        <mat-form-field class='mat-full-width color-white'>
+          <input matInput placeholder='Username' type="text" [errorStateMatcher]='matcher'
             formControlName="username" id="username">
             <mat-error *ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">
                 Username is <strong>required</strong>
@@ -13,21 +13,21 @@
       </div>
 
       <div class="form-group">
-        <mat-form-field class='mat-full-width'>
-            <input matInput placeholder='password' class="form-control" [type]="hide ? 'password' : 'text'" [errorStateMatcher]='matcher' 
+        <mat-form-field class='mat-full-width color-white'>
+            <input matInput placeholder='password' [type]="hide ? 'password' : 'text'" [errorStateMatcher]='matcher' 
               formControlName="password" name="password" id="password">
-              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                <mat-icon class="material-icons-two-tone">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-              </button>
+              <a mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon class="material-icons-outlined color-white">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </a>
               <mat-error *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
                   Password is <strong>required</strong>
               </mat-error>
           </mat-form-field>
       </div>
 
-      <button mat-raised-button color='primary' [disabled]="loginForm.invalid">Login</button>
-      <div *ngIf="invalidLogin" class="error">
-        <div>Invalid credentials.</div>
+      <div>
+        <button mat-stroked-button color='accent'>Login</button>
+        <label *ngIf="invalidLogin" class='error'>Invalid credentials!</label>
       </div>
     </form>
   </div>

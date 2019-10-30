@@ -6,7 +6,7 @@ import * as material from '@angular/material';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EmployeeService } from './employee.service';
+import { UserService } from './user/user.service';
 import { TokenInterceptor } from './core/interceptor';
 import { LoginComponent } from './login/login.component';
 import { AddUserComponent } from './user/add-user/add-user.component';
@@ -54,10 +54,17 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
    material.MatRippleModule,
    material.MatSliderModule,
    material.MatInputModule,
+   material.MatTableModule,
+   material.MatSortModule,
+   material.MatPaginatorModule,
+   material.MatDatepickerModule,
+   material.MatNativeDateModule,
+   material.NativeDateModule,
+   material.MatDialogModule,
    animations.BrowserAnimationsModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: [EmployeeService, {provide: HTTP_INTERCEPTORS,
+  providers: [UserService, {provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi : true}],
   bootstrap: [AppComponent]

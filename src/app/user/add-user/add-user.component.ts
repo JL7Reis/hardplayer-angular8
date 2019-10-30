@@ -1,58 +1,44 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EmployeeService } from '../../employee.service';
+import { UserService } from '../user.service';
 import { User } from '../../model/user.model';
 
-export interface Genre {
-  value: string;
-  viewValue: string;
-}
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.css']
+  styleUrls: ['./add-user.component.scss']
 })
 export class AddUserComponent implements OnInit {
 
   submitted = false;
   addForm: FormGroup;
   user: User;
+  minDate = new Date(1940, 0, 1);
+  maxDate = new Date();
+  genres: string[] = ['Male', 'Female', 'Other', 'Masculino', 'Feminino'];
 
-  constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService) { }
-
-  genres: Genre[] = [
-    {value: null, viewValue: 'Select...'},
-    {value: 'MASCULINO', viewValue: 'Masculino'},
-    {value: 'FEMININO', viewValue: 'Feminino'},
-    {value: 'OUTROS', viewValue: 'Outros'}
-  ];
+  constructor(private formBuilder: FormBuilder, private userService: UserService) { }
 
   ngOnInit() {
-    this.employeeService.sessionExpired();
     this.addForm = this.formBuilder.group({
       // id: [],
       username: ['', Validators.required],
       cpf: ['', Validators.required],
       email: ['', Validators.required],
-      bithdate: ['', Validators.required],
+      birthdate: ['', Validators.required],
       genre: ['', Validators.required],
       birthplace: ['', Validators.required],
-      nationality: ['', Validators.required],
+      country: ['', Validators.required],
       // registration: [''],
       // update: ['']
     });
   }
 
   onSubmit() {
-    this.employeeService.createUser(this.addForm.value)
+    this.userService.createUser(this.addForm.value)
       .subscribe(data => {
-        if (data.status === 200) {
-          this.submitted = true;
-          this.user = new User();
-        } else {
-          alert(data.message);
-        }
-      }
-      , error => console.log(error));
+        console.log(data);
+        this.submitted = true;
+      }, error => console.log(error));
   }
 }

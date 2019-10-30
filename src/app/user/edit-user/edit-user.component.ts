@@ -3,34 +3,28 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { User } from '../../model/user.model';
-import { EmployeeService } from '../../employee.service';
+import { UserService } from '../user.service';
 
-export interface Genre {
-  value: string;
-  viewValue: string;
-}
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
-  styleUrls: ['./edit-user.component.css']
+  styleUrls: ['./edit-user.component.scss']
 })
 export class EditUserComponent implements OnInit, OnDestroy {
 
   cpf: string;
   user: User;
   editForm: FormGroup;
-  constructor(
-    private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private employeeService: EmployeeService ) { }
+  minDate = new Date(1940, 0, 1);
+  maxDate = new Date();
+  genres: string[] = ['Male', 'Female', 'Other', 'Masculino', 'Feminino'];
 
-  genres: Genre[] = [
-    {value: null, viewValue: 'Select...'},
-    {value: 'MASCULINO', viewValue: 'Masculino'},
-    {value: 'FEMININO', viewValue: 'Feminino'},
-    {value: 'OUTROS', viewValue: 'Outros'}
-  ];
+  constructor(
+    private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private userService: UserService ) { }
 
   ngOnInit() {
-    this.employeeService.sessionExpired();
+    console.log('minDate ' + this.minDate);
+    console.log('maxDate ' + this.maxDate);
     const userCpf = localStorage.getItem('editUserCpf');
     if (!userCpf) {
       alert('Invalid action.');
@@ -42,19 +36,19 @@ export class EditUserComponent implements OnInit, OnDestroy {
       username: ['', Validators.required],
       cpf: ['', Validators.required],
       email: ['', Validators.required],
-      bithdate: ['', Validators.required],
+      birthdate: [''],
       genre: ['', Validators.required],
       birthplace: ['', Validators.required],
-      nationality: ['', Validators.required],
+      country: ['', Validators.required],
       registration: [''],
       update: ['']
-
     });
+    console.log(this.route.snapshot.params[`user`]);
     this.cpf = this.route.snapshot.params[`cpf`];
-    this.employeeService.getUserById(this.cpf)
-      .subscribe( data => {
+    this.userService.getUserById(this.cpf)
+      .subscribe(data => {
+        console.log(data);
         this.editForm.setValue(data.result);
-        console.log(data.result);
       });
   }
 
@@ -62,32 +56,12 @@ export class EditUserComponent implements OnInit, OnDestroy {
     localStorage.removeItem('editUserCpf');
   }
 
-  updateEmployee() {
-    this.employeeService.updateUser(this.user)
-      .subscribe(data => {
-        console.log(data.result);
-      }, error => console.log(error));
-    this.user = new User();
-    this.gotoList();
-  }
-
   onSubmit() {
-    this.employeeService.updateUser(this.editForm.value)
-      .pipe(first())
-      .subscribe(
-        data => {
-          if (data.status === 200) {
-            alert('User updated successfully.');
-            this.router.navigate(['listuser']);
-          } else {
-            alert(data.message);
-          }
-        },
-        error => alert(error)
-      );
-  }
-
-  gotoList() {
-    this.router.navigate(['home/listuser']);
+    this.userService.updateUser(this.editForm.value)
+      .subscribe(data => {
+        console.log(data);
+        alert('User updated successfully.');
+        this.router.navigate(['home/listuser']);
+      }, error => console.log(error));
   }
 }

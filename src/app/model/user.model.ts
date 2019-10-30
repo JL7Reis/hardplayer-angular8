@@ -4,10 +4,10 @@ export class User {
   username: string;
   cpf: string;
   email: string;
-  bithdate: string;
+  birthdate: Date;
   genre: string;
   birthplace: string;
-  nationality: string;
-  registration: string;
-  update: string;
+  country: string;
+  registration: Date;
+  update: Date;
 }

@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { EmployeeService } from './employee.service';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'Hardplayer - CRUD with Angular 8 + Spring Boot 2 + JWT';
 
-  constructor(private router: Router, private employeeService: EmployeeService) { }
+  constructor(private router: Router, private appService: AppService) { }
 
   logout() {
     this.router.navigate(['login']);
-    this.employeeService.exit();
+    this.appService.exit();
   }
 }

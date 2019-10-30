@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Router} from '@angular/router';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { EmployeeService } from '../employee.service';
+import { UserService } from '../user/user.service';
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.css']
+  styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit {
 
-  constructor(private breakpointObserver: BreakpointObserver, private router: Router, private employeeService: EmployeeService) {}
+  constructor(private breakpointObserver: BreakpointObserver, private userService: UserService) {}
   isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.Handset);
 
   ngOnInit() {
-    this.employeeService.sessionExpired();
+    this.userService.sessionExpired();
   }
 }

@@ -1,52 +1,59 @@
 <div class="col-md-6 user-container">
-  <h2 class="text-center center">Add User</h2>
+    <mat-label><h2 class="text-center center">Add User</h2></mat-label>
+    <hr />
   <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
 
     <div class="form-group">
-      <label for="username">User Name:</label>
-      <input type="text" formControlName="username" placeholder="username" name="username" class="form-control"
-        id="username">
+      <mat-form-field>
+        <input matInput placeholder="Username" formControlName="username" name="username" id="username">
+      </mat-form-field>
     </div>
 
     <div class="form-group">
-      <label for="cpf">CPF:</label>
-      <input type="text" formControlName="cpf" placeholder="CPF" name="cpf" class="form-control" id="cpf"
-        mask='000.000.000-99' clean='true'>
+      <mat-form-field>
+        <input matInput placeholder="CPF" formControlName="cpf" name="cpf" id="cpf" mask='000.000.000-99' clean='true'>
+      </mat-form-field>
     </div>
 
     <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="text" formControlName="email" placeholder="Email" name="email" class="form-control" id="email">
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="email" name="email" id="email">
+      </mat-form-field>
     </div>
 
     <div class="form-group">
-      <label for="bithdate">Bithdate:</label>
-      <input type="date" formControlName="bithdate" placeholder="Bithdate" name="bithdate" class="form-control"
-        id="bithdate">
+      <mat-form-field class="example-full-width">
+        <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Birthdate" name="birthdate" id="birthdate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
     </div>
 
     <div class="form-group">
-      <label for="genre">Genre:</label>
-      <select formControlName="genre" class="form-control" name="genre" id="genre">
-        <option *ngFor="let genre of genres" [value]="genre.value">{{genre.viewValue}}
-      </select>
+      <mat-form-field>
+        <mat-label for="genre">Genre</mat-label>
+        <mat-select formControlName="genre" name="genre" id="genre">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let genre of genres" [value]="genre">{{genre}}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <div class="form-group">
-      <label for="birthplace">Birthplace:</label>
-      <input type="text" formControlName="birthplace" placeholder="Birthplace" name="birthplace" class="form-control"
-        id="birthplace">
+      <mat-form-field>
+        <input matInput placeholder="Birthplace" formControlName="birthplace" name="birthplace" id="birthplace">
+      </mat-form-field>
     </div>
 
     <div class="form-group">
-      <label for="nationality">Nationality:</label>
-      <input type="text" formControlName="nationality" placeholder="Nationality" name="nationality" class="form-control"
-        id="nationality">
+      <mat-form-field>
+        <input matInput placeholder="Country" formControlName="country" name="country" id="country">
+      </mat-form-field>
     </div>
 
     <div>
-      <button class="btn btn-success">Add User</button> 
-      <label class="submit" [hidden]="!submitted">You submitted successfully!</label>
+      <button mat-stroked-button color="accent">Add User</button>
+      <label class="success" *ngIf="submitted">You submitted successfully!</label>
     </div>
   </form>
 </div>

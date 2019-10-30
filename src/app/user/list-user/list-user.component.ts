@@ -1,36 +1,40 @@
-import { EmployeeService } from '../../employee.service';
-import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../model/user.model';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-list-user',
   templateUrl: './list-user.component.html',
-  styleUrls: ['./list-user.component.css']
+  styleUrls: ['./list-user.component.scss']
 })
 export class ListUserComponent implements OnInit {
+
+  displayedColumns: string[] = ['username', 'cpf', 'email', 'birthdate', 'country', 'actions'];
+  dataSource: MatTableDataSource<User>;
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   hide: true;
   users: User[];
 
-  constructor(private router: Router, private employeeService: EmployeeService ) { }
+  constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit() {
-    if (this.employeeService.sessionExpired()) {
-      return;
-    }
-    this.employeeService.getUsers()
-    .subscribe( data => {
-      console.log(data);
-      this.users = data.result;
-    });
+    this.userService.getUsers()
+      .subscribe(data => {
+        console.log(data);
+        this.users = data.result;
+        this.loadTable(this.users);
+      }, error => console.log(error));
   }
 
-  deleteUser(user: User): void {
-    this.employeeService.deleteUser(user.cpf)
-      .subscribe( data => {
-        this.users = this.users.filter(u => u !== user);
-      });
+  viewUser(id: number) {
+    this.router.navigate(['home/viewuser', id]);
   }
 
   editUser(user: User): void {
@@ -39,7 +43,27 @@ export class ListUserComponent implements OnInit {
     this.router.navigate(['home/edituser', user]);
   }
 
-  viewUser(id: number) {
-    this.router.navigate(['home/viewuser', id]);
+  deleteUser(user: User): void {
+    if (window.confirm('Are sure you want to delete this user?')) {
+      this.userService.deleteUser(user.cpf)
+        .subscribe(data => {
+          console.log(data);
+          this.users = this.users.filter(u => u !== user);
+      }, error => console.log(error));
+    }
+  }
+
+  loadTable(users: User[]) {
+    this.dataSource = new MatTableDataSource(users);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }

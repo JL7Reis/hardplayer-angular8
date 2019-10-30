@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EmployeeService } from '../employee.service';
+import { UserService } from '../user/user.service';
 import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { AppService } from '../app.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -16,7 +17,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   invalidLogin = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router,  private employeeService: EmployeeService ) { }
+  constructor(private formBuilder: FormBuilder, private router: Router,  private appService: AppService ) { }
 
   ngOnInit() {
     localStorage.clear();
@@ -43,7 +44,7 @@ export class LoginComponent implements OnInit {
       username: this.loginForm.controls.username.value,
       password: this.loginForm.controls.password.value
     };
-    this.employeeService.login(loginPayload).subscribe(data => {
+    this.appService.login(loginPayload).subscribe(data => {
       if (data.status === 200) {
         localStorage.setItem('token', data.result);
         this.router.navigate(['home']);
