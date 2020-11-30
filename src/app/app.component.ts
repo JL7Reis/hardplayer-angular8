@@ -8,7 +8,7 @@ import { AppService } from './app.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Hardplayer - CRUD with Angular 8 + Spring Boot 2 + JWT';
+  title = 'Hardplayer';
 
   constructor(private router: Router, private appService: AppService) { }
 
